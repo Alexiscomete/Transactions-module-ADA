@@ -3,6 +3,7 @@ package lapinousecond.transactions
 import io.github.alexiscomete.lapinousecond.buttonsManager
 import io.github.alexiscomete.lapinousecond.entity.Player
 import io.github.alexiscomete.lapinousecond.save.SaveLocation
+import io.github.alexiscomete.lapinousecond.save.generateUniqueID
 import io.github.alexiscomete.lapinousecond.view.AnswerEnum
 import org.javacord.api.entity.channel.TextChannel
 import org.javacord.api.entity.message.MessageBuilder
@@ -19,7 +20,7 @@ open class VerifTransaction(
     val p: Player
 ) : Transaction(addMoney, removeMoney, getMoney) {
     fun askVerif(quantity: Double, textChannel: TextChannel?) {
-        val id = SaveLocation.generateUniqueID()
+        val id = generateUniqueID()
         val embedBuilder = EmbedBuilder()
             .setTitle(p.getAnswer(AnswerEnum.CONFIRMATION, true))
             .setColor(Color.BLUE)
