@@ -2,8 +2,7 @@ package lapinousecond.transactions
 
 import io.github.alexiscomete.lapinousecond.buttonsManager
 import io.github.alexiscomete.lapinousecond.entity.Player
-import io.github.alexiscomete.lapinousecond.save.SaveLocation
-import io.github.alexiscomete.lapinousecond.save.generateUniqueID
+import alexiscomete.managesave.generateUniqueID
 import io.github.alexiscomete.lapinousecond.view.AnswerEnum
 import org.javacord.api.entity.channel.TextChannel
 import org.javacord.api.entity.message.MessageBuilder
