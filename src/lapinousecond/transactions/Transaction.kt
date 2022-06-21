@@ -1,38 +1,16 @@
 package lapinousecond.transactions
 
-import io.github.alexiscomete.lapinousecond.entity.Player
-import io.github.alexiscomete.lapinousecond.view.AnswerEnum
-import org.javacord.api.entity.channel.TextChannel
+import io.github.alexiscomete.lapinousecond.entity.Owner
+import io.github.alexiscomete.lapinousecond.resources.Resource
 
-open class Transaction(
-    private val addMoney: (Double) -> Unit,
-    private val removeMoney: (Double) -> Unit,
-    private val getMoney: () -> Double,
-) {
-    fun make(textChannel: TextChannel, quantity: Double, player: Player) {
-        make(quantity, player, { content: String -> textChannel.sendMessage(content) }) { content: String ->
-            textChannel.sendMessage(
-                content
-            )
-        }
-    }
-
-    fun make(quantity: Double, player: Player, acc: (String) -> Unit, de: (String) -> Unit) {
-        if (basic(quantity)) {
-            player.getAnswer(AnswerEnum.TR_END, true)?.let { acc(it) }
+open class Transaction(val owner0: Owner, val owner1: Owner?, val amount0: Double?, val ressource0: Resource?, val amount1: Double?, val ressource1: Resource?) {
+    fun make() {
+        if (owner1 == null || amount0 == null || ressource0 == null || amount1 == null || ressource1 == null) {
+            throw IllegalArgumentException("Certains paramètres de la transaction sont invalides")
         } else {
-            player.getAnswer(AnswerEnum.ECHEC_TRANS, true, player.getAnswer(AnswerEnum.NO_ENOUGH_MONEY, false))?.let { de(it) }
-        }
-    }
-
-    private fun basic(quantity: Double): Boolean {
-        val money = getMoney()
-        return if (money > quantity) {
-            addMoney(quantity)
-            removeMoney(quantity)
-            true
-        } else {
-            false
+            if (!transactionTwoDirections(owner0, owner1, amount0, ressource0, amount1, ressource1)) {
+                throw IllegalStateException("Transaction impossible car les montants sont trop élevés")
+            }
         }
     }
 }

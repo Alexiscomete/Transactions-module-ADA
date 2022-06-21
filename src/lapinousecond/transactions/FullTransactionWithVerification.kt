@@ -7,13 +7,13 @@ import org.javacord.api.entity.channel.TextChannel
 import org.javacord.api.event.message.MessageCreateEvent
 import org.javacord.api.interaction.MessageComponentInteraction
 
-open class FullTransaction(
+open class FullTransactionWithVerification(
     addMoney: (Double) -> Unit,
     removeMoney: (Double) -> Unit,
     getMoney: () -> Double,
     p: Player,
     private val max: () -> Double,
-) : VerifTransaction(addMoney, removeMoney, getMoney, p) {
+) : TransactionWithVerification(addMoney, removeMoney, getMoney, p) {
 
     private fun askQuantity(after: (Double) -> Unit, textChannel: TextChannel) {
         textChannel.sendMessage(p.getAnswer(AnswerEnum.ASK_MONTANT, true))
