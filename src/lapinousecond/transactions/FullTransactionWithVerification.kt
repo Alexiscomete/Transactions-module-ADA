@@ -1,55 +1,30 @@
 package lapinousecond.transactions
 
+import io.github.alexiscomete.lapinousecond.entity.Owner
 import io.github.alexiscomete.lapinousecond.entity.Player
 import io.github.alexiscomete.lapinousecond.messagesManager
+import io.github.alexiscomete.lapinousecond.resources.Resource
 import io.github.alexiscomete.lapinousecond.view.AnswerEnum
 import org.javacord.api.entity.channel.TextChannel
 import org.javacord.api.event.message.MessageCreateEvent
 import org.javacord.api.interaction.MessageComponentInteraction
 
 open class FullTransactionWithVerification(
-    addMoney: (Double) -> Unit,
-    removeMoney: (Double) -> Unit,
-    getMoney: () -> Double,
-    p: Player,
-    private val max: () -> Double,
-) : TransactionWithVerification(addMoney, removeMoney, getMoney, p) {
+    owner0: Owner,
+    owner1: Owner?,
+    amount0: Double?,
+    ressource0: Resource?,
+    amount1: Double?,
+    ressource1: Resource?,
+    isValid0: Boolean,
+    isValid1: Boolean,
+) : TransactionWithVerification(owner0, owner1, amount0, ressource0, amount1, ressource1, isValid0, isValid1) {
 
-    private fun askQuantity(after: (Double) -> Unit, textChannel: TextChannel) {
-        textChannel.sendMessage(p.getAnswer(AnswerEnum.ASK_MONTANT, true))
-        addL(textChannel, after)
+    fun askAmounts() {
+        // si un montant est null, on demande le montant. Attention : l'owner doit être défini avant
     }
 
-    private fun askQuantity(after: (Double) -> Unit, messageComponentInteraction: MessageComponentInteraction) {
-        messageComponentInteraction.createImmediateResponder().setContent(p.getAnswer(AnswerEnum.ASK_MONTANT, true))
-            .respond()
-        addL(messageComponentInteraction.channel.get(), after)
-    }
+    fun askRessources() {
 
-    private fun addL(textChannel: TextChannel, after: (Double) -> Unit) {
-        messagesManager.addListener(textChannel, p.id) { messageCreateEvent: MessageCreateEvent ->
-            try {
-                val d = messageCreateEvent.message.content.toDouble()
-                if (d > max()) {
-                    messageCreateEvent.message.reply(p.getAnswer(AnswerEnum.VALUE_TOO_HIGH, true, max))
-                    addL(textChannel, after)
-                }
-                after(d)
-            } catch (e: IllegalArgumentException) {
-                messageCreateEvent.message.reply(p.getAnswer(AnswerEnum.FORM_INVALID, true))
-                addL(textChannel, after)
-            }
-        }
-    }
-
-    fun full(textChannel: TextChannel) {
-        askQuantity({ aDouble: Double? -> askVerif(aDouble!!, textChannel) }, textChannel)
-    }
-
-    fun full(messageComponentInteraction: MessageComponentInteraction) {
-        askQuantity(
-            { aDouble: Double? -> askVerif(aDouble!!, messageComponentInteraction.channel.get()) },
-            messageComponentInteraction
-        )
     }
 }
