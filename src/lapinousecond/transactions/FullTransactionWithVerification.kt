@@ -22,6 +22,36 @@ open class FullTransactionWithVerification(
 
     fun askAmounts() {
         // si un montant est null, on demande le montant. Attention : l'owner doit être défini avant
+        var count = 0
+
+        if (owner1 == null) {
+            throw IllegalArgumentException("owner1 must be defined")
+        }
+
+        if (amount1 == null) {
+            count++
+        }
+
+        if (amount0 == null) {
+            count++
+            owner0.askAmount(owner1!!) {
+                count--
+                amount0 = it
+                if (count == 0) {
+                    askValidation()
+                }
+            }
+        }
+
+        if (amount1 == null && owner1 != null) {
+            owner1!!.askAmount(owner0) {
+                count--
+                amount1 = it
+                if (count == 0) {
+                    askValidation()
+                }
+            }
+        }
     }
 
     fun askRessources() {

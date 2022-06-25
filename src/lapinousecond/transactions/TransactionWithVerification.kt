@@ -29,10 +29,10 @@ open class TransactionWithVerification(
             throw IllegalStateException("Les transactions doivent avoir des propriétaires, des montants et des ressources avant d'être validées")
         }
         if (!isValid0) {
-            owner0.askValidation(owner1, amount0, ressource0, amount1, ressource1) { isValid0 = it }
+            owner0.askValidation(owner1!!, amount0!!, ressource0!!, amount1!!, ressource1!!) { isValid0 = it }
         }
         if (!isValid1) {
-            owner1.askValidation(owner0, amount1, ressource1, amount0, ressource0) { isValid1 = it }
+            owner1!!.askValidation(owner0, amount1!!, ressource1!!, amount0!!, ressource0!!) { isValid1 = it }
         }
     }
 }
