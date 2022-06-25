@@ -55,6 +55,35 @@ open class FullTransactionWithVerification(
     }
 
     fun askRessources() {
+        var count = 0
 
+        if (owner1 == null) {
+            throw IllegalArgumentException("owner1 must be defined")
+        }
+
+        if (ressource1 == null) {
+            count++
+        }
+
+        if (ressource0 == null) {
+            count++
+            owner0.askRessource(owner1!!) {
+                count--
+                ressource0 = it
+                if (count == 0) {
+                    askValidation()
+                }
+            }
+        }
+
+        if (ressource1 == null && owner1 != null) {
+            owner1!!.askRessource(owner0) {
+                count--
+                ressource1 = it
+                if (count == 0) {
+                    askValidation()
+                }
+            }
+        }
     }
 }
