@@ -1,13 +1,7 @@
 package lapinousecond.transactions
 
 import io.github.alexiscomete.lapinousecond.entity.Owner
-import io.github.alexiscomete.lapinousecond.entity.Player
-import io.github.alexiscomete.lapinousecond.messagesManager
 import io.github.alexiscomete.lapinousecond.resources.Resource
-import io.github.alexiscomete.lapinousecond.view.AnswerEnum
-import org.javacord.api.entity.channel.TextChannel
-import org.javacord.api.event.message.MessageCreateEvent
-import org.javacord.api.interaction.MessageComponentInteraction
 
 open class FullTransactionWithVerification(
     owner0: Owner,
@@ -71,7 +65,7 @@ open class FullTransactionWithVerification(
                 count--
                 ressource0 = it
                 if (count == 0) {
-                    askValidation()
+                    askAmounts()
                 }
             }
         }
@@ -81,7 +75,7 @@ open class FullTransactionWithVerification(
                 count--
                 ressource1 = it
                 if (count == 0) {
-                    askValidation()
+                    askAmounts()
                 }
             }
         }
