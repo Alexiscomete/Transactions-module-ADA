@@ -30,6 +30,7 @@ publishing {
 }
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation(project(":A-Discord-Adventure"))
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {

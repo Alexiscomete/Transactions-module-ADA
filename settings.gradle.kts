@@ -3,3 +3,5 @@
  */
 
 rootProject.name = "Transactions"
+include(":A-Discord-Adventure")
+project(":A-Discord-Adventure").projectDir = File("../../A-Discord-Adventure")
