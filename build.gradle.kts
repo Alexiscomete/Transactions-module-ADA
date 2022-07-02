@@ -18,7 +18,7 @@ repositories {
     mavenCentral()
 }
 
-group = "groupId"
+group = "lapinoudsecond.transactions"
 version = "1.0-SNAPSHOT"
 description = "Transactions"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
